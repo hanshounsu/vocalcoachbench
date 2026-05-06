@@ -1,0 +1,59 @@
+# Submission Guide
+
+This repository provides the public scorer. A complete benchmark submission
+contains prediction JSONL files for the tasks being evaluated.
+
+## Direct Pairwise Triplet Ranking
+
+Run each pair from the released manifest with the direct pairwise prompt:
+
+```bash
+vocalcoachbench evaluate-triplet \
+  --pairs data/triplet_pairs.jsonl \
+  --predictions predictions/my_model_direct_pairwise.jsonl \
+  --out results/my_model_triplet.json
+```
+
+The model should receive two labeled audio inputs, Audio A and Audio B, and
+choose the better performance. The ranking is reconstructed from the three pair
+decisions in each triplet.
+
+Auxiliary score-derived triplet ranking can be computed from single-audio
+quality scores:
+
+```bash
+vocalcoachbench evaluate-score-triplet \
+  --pairs data/triplet_pairs.jsonl \
+  --scores predictions/my_model_scores.jsonl \
+  --out results/my_model_score_triplet.json
+```
+
+## Top-3 Issue Prediction
+
+```bash
+vocalcoachbench evaluate-top3 \
+  --references data/top3_references.jsonl \
+  --predictions predictions/my_model_top3.jsonl \
+  --out results/my_model_top3.json
+```
+
+Submit exactly three issue categories per audio, ordered from most serious to
+third most serious.
+
+## Segment Classification
+
+```bash
+vocalcoachbench evaluate-segment \
+  --references data/segment_references.jsonl \
+  --predictions predictions/my_model_segment.jsonl \
+  --out results/my_model_segment.json
+```
+
+Submit one issue category per short segment.
+
+## Open-Ended Feedback
+
+Open-ended coaching feedback is evaluated through claim extraction and judge
+models. The prompt templates in `prompts/` define the expected structured
+claims. Hosted leaderboard submissions should include the raw model output and,
+when available, the extracted claim JSON.

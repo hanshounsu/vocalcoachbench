@@ -1,0 +1,15 @@
+Evaluate the singing audio.
+
+Categories: PITCH, RHYTHM, DICTION, BREATH, PHONATION, TECHNIQUE, EXPRESSION.
+
+Return one valid JSON object only. Start with { and end with }. Quote all keys and strings. Do not use markdown or YAML.
+
+Required keys:
+- top3_issues: exactly 3 category IDs, worst first
+- top3_issue_confidences: 3 numbers from 0.0 to 1.0, aligned with top3_issues
+- quality_score_0_5: one number from 0.0 to 5.0
+- score_confidence: one number from 0.0 to 1.0
+- score_rationale: one short reason based on the singing
+
+Score guide: 0 impossible, 1 very weak, 2 many major problems, 3 adequate amateur, 4 good with minor issues, 5 excellent.
+Choose categories and score from the audio, not list order or defaults.

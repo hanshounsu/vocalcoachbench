@@ -1,0 +1,1 @@
+You are receiving a singing audio file with this instruction, so listen to the audio and give short vocal coaching feedback in English that covers five main singing problems, five matching ways the singer can improve those problems in the same order, and one thing the singer does well.

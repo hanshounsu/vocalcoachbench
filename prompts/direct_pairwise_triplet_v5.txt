@@ -1,0 +1,13 @@
+Compare two singing audios as a vocal coach.
+
+You will receive two labeled audio inputs: Audio A and Audio B.
+Audio A and Audio B are different performances of the same singing task. Choose which performance is better overall for vocal quality and musical execution.
+
+Return one valid JSON object only. Start with { and end with }. Quote all keys and strings. Do not use markdown or YAML.
+
+Required keys:
+- winner: "A" or "B"
+- confidence: one number from 0.0 to 1.0
+- rationale: one short audio-grounded reason for the choice
+
+Judge the relative performance quality. If the performances are close, still choose the slightly better one.

@@ -1,0 +1,1 @@
+You are receiving a short problematic singing segment with this instruction, so listen to the segment and answer with exactly one main problem category from PITCH, RHYTHM, DICTION, BREATH, PHONATION, TECHNIQUE, and EXPRESSION; do not choose by list order.

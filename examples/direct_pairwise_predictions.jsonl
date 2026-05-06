@@ -1,0 +1,6 @@
+{"pair_id":"triplet_001_ab","winner":"A","confidence":0.78,"rationale":"Audio A is steadier in pitch and tone."}
+{"pair_id":"triplet_001_ac","winner":"A","confidence":0.84,"rationale":"Audio A has cleaner intonation."}
+{"pair_id":"triplet_001_bc","winner":"A","confidence":0.55,"rationale":"Audio B has slightly better control."}
+{"pair_id":"triplet_002_ab","winner":"B","confidence":0.72,"rationale":"Audio B is more stable rhythmically."}
+{"pair_id":"triplet_002_ac","winner":"A","confidence":0.64,"rationale":"Audio A is clearer than Audio C."}
+{"pair_id":"triplet_002_bc","winner":"A","confidence":0.81,"rationale":"Audio B has stronger pitch control."}

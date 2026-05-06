@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vocalcoachbench"
+version = "0.1.0"
+description = "Evaluation toolkit for VocalCoachBench"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+authors = [
+  {name = "Anonymous Authors"}
+]
+license = {text = "MIT"}
+
+[project.scripts]
+vocalcoachbench = "vocalcoachbench.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["vocalcoachbench*"]

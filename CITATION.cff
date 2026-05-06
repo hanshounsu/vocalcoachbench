@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: VocalCoachBench
+message: "If you use VocalCoachBench, please cite the benchmark paper."
+type: software
+authors:
+  - name: Anonymous Authors
+version: 0.1.0
+license: MIT

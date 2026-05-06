@@ -1,0 +1,18 @@
+Listen to the singing audio as a vocal coach.
+
+Categories: PITCH, RHYTHM, DICTION, BREATH, PHONATION, TECHNIQUE, EXPRESSION.
+
+Return one valid JSON object only. Start with { and end with }. Quote all keys and strings. Do not use markdown or YAML.
+
+Required keys:
+- diagnosis_claims: 5 objects with id d1-d5, category, text, confidence
+- prescription_claims: 5 objects with id p1-p5, target_diagnosis_id, category, text, confidence
+- strength_claims: 1 object with id s1, category, text, confidence
+
+Rules:
+- p1 targets d1, p2 targets d2, p3 targets d3, p4 targets d4, p5 targets d5.
+- Each diagnosis names one specific vocal problem.
+- Each prescription gives one concrete exercise or adjustment for its mapped diagnosis.
+- Each strength names one audible vocal strength.
+- confidence is 0.0 to 1.0.
+- Choose categories from the audio, not list order. Keep text concise.

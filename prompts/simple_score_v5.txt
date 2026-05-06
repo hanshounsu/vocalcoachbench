@@ -1,0 +1,1 @@
+You are receiving a singing audio file with this instruction, so listen to the audio and answer with only one number from 0 to 5 for overall singing quality, where 0 is impossible to evaluate, 1 is very weak, 2 has many problems, 3 is average amateur, 4 is good, and 5 is excellent.
