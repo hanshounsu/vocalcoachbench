@@ -19,12 +19,38 @@ This repository contains the public evaluation code, prompt templates, and data
 format documentation. Full dataset files are hosted separately; small toy files
 under `examples/` are included only for smoke tests.
 
+## What You Need
+
+This repository is a scorer, not a model inference server. To evaluate a model
+on a fresh machine, you need:
+
+- this repository,
+- the released benchmark reference files, such as `triplet_pairs.jsonl`,
+  `top3_references.jsonl`, and `segment_references.jsonl`,
+- your model prediction JSONL files in the formats below.
+
+The scorer does not listen to audio files or call model APIs. Audio files are
+needed when generating model predictions, but the metric commands consume only
+the released reference JSONL files and prediction JSONL files.
+
 ## Installation
 
+On a fresh Ubuntu server:
+
 ```bash
-git clone https://github.com/<ORG>/VocalCoachBench.git
-cd VocalCoachBench
-pip install -e .
+sudo apt-get update
+sudo apt-get install -y git python3 python3-pip python3-venv
+```
+
+Clone this repository and install the scorer:
+
+```bash
+git clone <repository-url> vocalcoachbench
+cd vocalcoachbench
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
 ```
 
 ## Quick Start
@@ -98,6 +124,44 @@ The full benchmark audio and annotation files are distributed separately. Place
 downloaded files under `data/` using the JSONL formats in `docs/data_format.md`.
 The `data/` directory is ignored by git so that the evaluator repository remains
 code-only.
+
+Expected full-data layout:
+
+```text
+data/
+  triplet_pairs.jsonl
+  top3_references.jsonl
+  segment_references.jsonl
+predictions/
+  my_model_direct_pairwise.jsonl
+  my_model_top3.jsonl
+  my_model_scores.jsonl
+  my_model_segment.jsonl
+```
+
+Run the full benchmark scorers:
+
+```bash
+vocalcoachbench evaluate-triplet \
+  --pairs data/triplet_pairs.jsonl \
+  --predictions predictions/my_model_direct_pairwise.jsonl \
+  --out results/my_model_triplet.json
+
+vocalcoachbench evaluate-top3 \
+  --references data/top3_references.jsonl \
+  --predictions predictions/my_model_top3.jsonl \
+  --out results/my_model_top3.json
+
+vocalcoachbench evaluate-score-triplet \
+  --pairs data/triplet_pairs.jsonl \
+  --scores predictions/my_model_scores.jsonl \
+  --out results/my_model_score_triplet.json
+
+vocalcoachbench evaluate-segment \
+  --references data/segment_references.jsonl \
+  --predictions predictions/my_model_segment.jsonl \
+  --out results/my_model_segment.json
+```
 
 ## Notes
 

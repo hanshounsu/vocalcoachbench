@@ -3,6 +3,9 @@
 This repository provides the public scorer. A complete benchmark submission
 contains prediction JSONL files for the tasks being evaluated.
 
+The benchmark dataset provides the reference files. Participants provide model
+prediction files. The scorer combines those two sets of files to compute metrics.
+
 ## Direct Pairwise Triplet Ranking
 
 Run each pair from the released manifest with the direct pairwise prompt:

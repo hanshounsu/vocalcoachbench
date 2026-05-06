@@ -2,6 +2,10 @@
 
 All public files use UTF-8 JSONL: one JSON object per line.
 
+The scorer consumes reference JSONL files and prediction JSONL files. It does
+not run model inference. Audio files are used upstream to generate predictions;
+the metric commands themselves do not load audio.
+
 ## Audio Metadata
 
 Audio metadata should identify the audio without assuming a fixed storage
