@@ -13,6 +13,10 @@ normalization step.
 In other words, `raw_outputs/*.jsonl` is optional and archival; `predictions/*.jsonl`
 is the scorer input.
 
+If the benchmark data is downloaded from Hugging Face, verify that the files
+described in `docs/huggingface_dataset.md` are available under `data/` or pass
+the downloaded path via `--data-dir`.
+
 To evaluate all available tasks in one command:
 
 ```bash

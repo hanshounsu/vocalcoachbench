@@ -23,6 +23,10 @@ backend.
 `path` can be local, relative to the benchmark root, or a signed URL in hosted
 evaluation.
 
+When using the Hugging Face dataset release, these metadata/reference files are
+expected to be provided by the dataset. See `docs/huggingface_dataset.md` for
+the expected downloaded layout.
+
 ## Direct Pairwise Triplet Ranking
 
 The benchmark releases a pair manifest. Each triplet produces three pair rows:

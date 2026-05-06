@@ -144,18 +144,23 @@ scripts/              Convenience scripts
 
 ## Dataset
 
-The full benchmark audio and annotation files are distributed separately. Place
-downloaded files under `data/` using the JSONL formats in `docs/data_format.md`.
-The `data/` directory is ignored by git so that the evaluator repository remains
-code-only.
+The full benchmark audio and annotation files are distributed separately, for
+example through a Hugging Face dataset release. After downloading the dataset,
+place or symlink the released files under `data/` using the JSONL formats in
+`docs/data_format.md`. The `data/` directory is ignored by git so that the
+evaluator repository remains code-only. See `docs/huggingface_dataset.md` for
+the expected dataset layout and quick checks.
 
 Expected full-data layout:
 
 ```text
 data/
+  audio_metadata.jsonl
   triplet_pairs.jsonl
   top3_references.jsonl
   segment_references.jsonl
+  segment_metadata.jsonl
+  audio/
 predictions/
   my_model_direct_pairwise.jsonl
   my_model_top3.jsonl
