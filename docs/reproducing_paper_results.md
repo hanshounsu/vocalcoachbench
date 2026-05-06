@@ -1,8 +1,7 @@
 # Reproducing Paper Results
 
-This repository is designed to make the benchmark evaluation protocol
-inspectable and reusable while keeping provider-specific inference code out of
-the public scorer.
+This repository provides the deterministic scorer and the prediction-file
+interface used by the benchmark.
 
 ## What Is Fully Reproducible Here
 
@@ -45,8 +44,8 @@ python scripts/infer_single_audio_template.py \
   --out predictions/my_model_segment.jsonl
 ```
 
-The `call_model(...)` functions in those files are intentionally placeholders.
-Users should implement them with their own local model or API backend.
+The `call_model(...)` functions in those files are adapter stubs. Users should
+implement them with their own local model or API backend.
 Those scripts can write raw output rows with `response_text`; the raw rows can
 then be normalized with `scripts/postprocess_predictions.py` into canonical
 prediction JSONL files for scoring.

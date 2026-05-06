@@ -58,6 +58,12 @@ Only the reference JSONL files are required for scoring existing prediction
 files. Audio files and metadata are required when generating new model
 predictions.
 
+Same-song audio used for triplet ranking is not redistributed in the dataset
+release. To run direct pairwise inference, download the source audio described
+in `annotations/source_datasets.jsonl` and populate usable paths in
+`data/audio_metadata.jsonl`, or adapt your inference script to resolve
+`audio_id`/`audio_filename` from your local audio store.
+
 ## Prepared Files
 
 `triplet_pairs.jsonl`
@@ -162,6 +168,4 @@ python scripts/evaluate_all.py \
 The evaluator repository intentionally does not include the full audio dataset.
 The `data/` directory is ignored by git.
 
-The public dataset release should contain `VocalCoachBench_annotations/` only.
-Do not upload private mapping files or local bookkeeping directories such as
-`_private/`; the evaluator does not use them.
+The evaluator uses only files under `VocalCoachBench_annotations/`.

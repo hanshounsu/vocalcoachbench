@@ -4,20 +4,19 @@ Evaluation toolkit for **VocalCoachBench: Benchmarking Audio-Language Models on
 Expert Feedback for Singing**.
 
 VocalCoachBench is a benchmark for evaluating audio-language models on expert
-vocal coaching feedback for singing. It separates deterministic structured
-targets from open-ended feedback evaluation:
+vocal coaching feedback for singing. This repository contains the scorer,
+prompt templates, post-processing utilities, and data preparation scripts.
 
 - **Direct pairwise triplet ranking**: compare same-song performances through
   three A/B audio comparisons per triplet.
 - **Top-3 issue prediction**: rank the three most salient vocal issue categories.
 - **Segment-conditioned issue classification**: identify the main issue in an
   expert-consensus vocal segment.
-- **Open-ended coaching evaluation**: judge generated diagnosis and correction
-  claims against expert atomic claims.
+- **Open-ended coaching prompts**: structured diagnosis and correction claim
+  templates for hosted or provider-specific judge pipelines.
 
-This repository contains the public evaluation code, prompt templates, and data
-format documentation. Full dataset files are hosted separately; small toy files
-under `examples/` are included only for smoke tests.
+Full dataset files are hosted separately. Small files under `examples/` are
+included only for smoke tests.
 
 ## What You Need
 
@@ -70,7 +69,7 @@ python -m pip install -e .
 
 ## Quick Start
 
-Run the toy examples:
+Run the examples:
 
 ```bash
 vocalcoachbench evaluate-triplet \
@@ -218,9 +217,9 @@ python scripts/evaluate_all.py \
 
 ## Inference Templates
 
-Provider-specific inference code is intentionally kept out of the public scorer
-to avoid API-key handling, private paths, and brittle vendor dependencies. The
-template scripts define the expected prediction-file interface:
+Provider-specific inference code is kept out of the public scorer to avoid API
+key handling, private paths, and vendor-specific dependencies. The template
+scripts define the expected prediction-file interface:
 
 ```bash
 python scripts/infer_direct_pairwise_template.py --help
@@ -249,7 +248,7 @@ python scripts/postprocess_predictions.py \
   --print-summary
 ```
 
-The `examples/raw_*_outputs.jsonl` files are toy demonstrations of the
+The `examples/raw_*_outputs.jsonl` files are small demonstrations of the
 normalizer, not released model outputs. The post-processing rules are documented
 in `docs/postprocessing.md`.
 
@@ -259,8 +258,8 @@ in `docs/postprocessing.md`.
   scores.
 - Score-derived triplet ranking is provided as an auxiliary diagnostic through
   `evaluate-score-triplet`.
-- Open-ended coaching evaluation requires an LLM judge; this repo provides the
-  schemas and prompt templates, while judge execution depends on the model/API
-  backend used by the benchmark host.
+- Open-ended coaching evaluation requires a judge model; this repo provides the
+  prompt templates and schemas, while judge execution depends on the evaluation
+  backend.
 - See `docs/reproducing_paper_results.md` for the intended separation between
   model inference and deterministic scoring.

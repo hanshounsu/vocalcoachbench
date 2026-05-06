@@ -7,7 +7,7 @@ The benchmark dataset provides the reference files. Participants provide model
 prediction files. The scorer combines those two sets of files to compute metrics.
 If a model returns raw text rather than canonical JSONL fields, normalize the
 outputs with `scripts/postprocess_predictions.py` before scoring.
-The toy `examples/raw_*_outputs.jsonl` files only demonstrate this
+The small `examples/raw_*_outputs.jsonl` files only demonstrate this
 normalization step.
 
 In other words, `raw_outputs/*.jsonl` is optional and archival; `predictions/*.jsonl`
@@ -78,5 +78,5 @@ Submit one issue category per short segment.
 
 Open-ended coaching feedback is evaluated through claim extraction and judge
 models. The prompt templates in `prompts/` define the expected structured
-claims. Hosted leaderboard submissions should include the raw model output and,
-when available, the extracted claim JSON.
+claims. Judge execution is backend-specific and is not part of the deterministic
+scorer CLI.

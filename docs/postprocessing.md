@@ -73,7 +73,7 @@ The normalizer first parses JSON objects, then applies conservative fallback
 rules for simple text answers. It maps category aliases to the seven benchmark
 categories and clips confidence to `[0, 1]` and quality scores to `[0, 5]`.
 
-The files named `examples/raw_*_outputs.jsonl` are toy demonstrations of
+The files named `examples/raw_*_outputs.jsonl` are small demonstrations of
 these parsing rules. They are not model prediction files from the paper.
 
 The direct pairwise prompt asks for a JSON object with `winner`, `confidence`,
