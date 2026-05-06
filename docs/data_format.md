@@ -22,6 +22,9 @@ backend.
 
 `path` can be local, relative to the benchmark root, or a signed URL in hosted
 evaluation.
+If `path` is `null`, the scorer can still use the reference row, but inference
+code must resolve the audio from source metadata or a local audio store before
+calling a model.
 
 When using the Hugging Face dataset release, create these scorer-ready
 metadata/reference files with `scripts/prepare_hf_release.py`. See

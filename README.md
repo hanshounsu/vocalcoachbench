@@ -31,6 +31,9 @@ on a fresh machine, you need:
 The scorer does not listen to audio files or call model APIs. Audio files are
 needed when generating model predictions, but the metric commands consume only
 the released reference JSONL files and prediction JSONL files.
+For inference, check the prepared `audio_metadata.jsonl` and
+`segment_metadata.jsonl`; rows with `path: null` must be resolved from the
+source dataset metadata or from your local audio store.
 
 ## File Roles
 
