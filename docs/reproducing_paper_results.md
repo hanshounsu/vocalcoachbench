@@ -58,10 +58,11 @@ interface between model inference and scoring.
 
 ## Recommended Paper-Result Workflow
 
-1. Download the benchmark dataset and reference JSONL files.
-2. Generate or download model prediction JSONL files.
-3. If needed, normalize raw model outputs with `scripts/postprocess_predictions.py`.
-4. Run `scripts/evaluate_all.py`.
-5. Use the generated `results/all_metrics.json` to populate result tables.
+1. Download the benchmark dataset.
+2. Run `scripts/prepare_hf_release.py` to create scorer-ready reference files.
+3. Generate or download model prediction JSONL files.
+4. If needed, normalize raw model outputs with `scripts/postprocess_predictions.py`.
+5. Run `scripts/evaluate_all.py`.
+6. Use the generated `results/all_metrics.json` to populate result tables.
 
 The scorer itself has no external runtime dependencies beyond Python.

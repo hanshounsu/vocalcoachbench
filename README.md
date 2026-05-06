@@ -146,12 +146,22 @@ scripts/              Convenience scripts
 
 The full benchmark audio and annotation files are distributed separately, for
 example through a Hugging Face dataset release. After downloading the dataset,
-place or symlink the released files under `data/` using the JSONL formats in
-`docs/data_format.md`. The `data/` directory is ignored by git so that the
-evaluator repository remains code-only. See `docs/huggingface_dataset.md` for
-the expected dataset layout and quick checks.
+prepare scorer-ready reference files with:
 
-Expected full-data layout:
+```bash
+python scripts/prepare_hf_release.py \
+  --hf-root /path/to/downloaded_hf_release \
+  --out-dir data
+```
+
+The script accepts either the parent download directory or the
+`VocalCoachBench_annotations/` directory. It writes the JSONL files consumed by
+the scorer under `data/` and, by default, links `data/audio` to the downloaded
+release audio directory. The `data/` directory is ignored by git so that the
+evaluator repository remains code-only. See `docs/huggingface_dataset.md` for
+the expected release layout and quick checks.
+
+Expected scorer-ready layout after preparation:
 
 ```text
 data/
