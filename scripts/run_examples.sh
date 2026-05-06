@@ -18,3 +18,8 @@ vocalcoachbench evaluate-score-triplet \
 vocalcoachbench evaluate-segment \
   --references "$ROOT/examples/segment_references.jsonl" \
   --predictions "$ROOT/examples/segment_predictions.jsonl"
+
+python "$ROOT/scripts/evaluate_all.py" \
+  --data-dir "$ROOT/examples" \
+  --predictions-dir "$ROOT/examples" \
+  --output-dir "$ROOT/outputs/example_metrics"

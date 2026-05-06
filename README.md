@@ -77,6 +77,15 @@ vocalcoachbench evaluate-segment \
 
 Each command prints a JSON summary. Add `--out path/to/summary.json` to save it.
 
+You can also evaluate every available task in a directory at once:
+
+```bash
+python scripts/evaluate_all.py \
+  --data-dir examples \
+  --predictions-dir examples \
+  --output-dir outputs/example_metrics
+```
+
 ## Prediction Formats
 
 ### Direct Pairwise Triplet Ranking
@@ -163,6 +172,29 @@ vocalcoachbench evaluate-segment \
   --out results/my_model_segment.json
 ```
 
+Or run all available tasks at once:
+
+```bash
+python scripts/evaluate_all.py \
+  --data-dir data \
+  --predictions-dir predictions \
+  --output-dir results
+```
+
+## Inference Templates
+
+Provider-specific inference code is intentionally kept out of the public scorer
+to avoid API-key handling, private paths, and brittle vendor dependencies. The
+template scripts define the expected prediction-file interface:
+
+```bash
+python scripts/infer_direct_pairwise_template.py --help
+python scripts/infer_single_audio_template.py --help
+```
+
+Implement the `call_model(...)` function in a local copy or adapter script for
+your model, then evaluate the resulting JSONL files with the scorer.
+
 ## Notes
 
 - Main triplet ranking uses **direct pairwise comparison**, not scalar quality
@@ -172,3 +204,5 @@ vocalcoachbench evaluate-segment \
 - Open-ended coaching evaluation requires an LLM judge; this repo provides the
   schemas and prompt templates, while judge execution depends on the model/API
   backend used by the benchmark host.
+- See `docs/reproducing_paper_results.md` for the intended separation between
+  model inference and deterministic scoring.

@@ -6,6 +6,15 @@ contains prediction JSONL files for the tasks being evaluated.
 The benchmark dataset provides the reference files. Participants provide model
 prediction files. The scorer combines those two sets of files to compute metrics.
 
+To evaluate all available tasks in one command:
+
+```bash
+python scripts/evaluate_all.py \
+  --data-dir data \
+  --predictions-dir predictions \
+  --output-dir results
+```
+
 ## Direct Pairwise Triplet Ranking
 
 Run each pair from the released manifest with the direct pairwise prompt:
