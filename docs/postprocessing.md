@@ -65,7 +65,7 @@ Raw rows must preserve the benchmark identifier and the model text:
 
 ```json
 {"pair_id": "triplet_001_ab", "response_text": "{\"winner\":\"A\"}"}
-{"audio_id": "audio_001", "response_text": "{\"top3_issues\":[\"PITCH\",\"BREATH\",\"PHONATION\"],\"quality_score_0_5\":3.2}"}
+{"audio_id": "audio_001", "response_text": "{\"top3_issues\":[\"PITCH\",\"BREATH\",\"VOCALIZATION\"],\"quality_score_0_5\":3.2}"}
 {"sample_id": "segment_001", "response_text": "{\"category\":\"PITCH\"}"}
 ```
 

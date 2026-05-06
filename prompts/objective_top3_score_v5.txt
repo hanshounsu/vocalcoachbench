@@ -1,6 +1,6 @@
 Evaluate the singing audio.
 
-Categories: PITCH, RHYTHM, DICTION, BREATH, PHONATION, TECHNIQUE, EXPRESSION.
+Categories: PITCH, RHYTHM, DICTION, BREATH, VOCALIZATION, TECHNIQUE, EXPRESSION.
 
 Return one valid JSON object only. Start with { and end with }. Quote all keys and strings. Do not use markdown or YAML.
 

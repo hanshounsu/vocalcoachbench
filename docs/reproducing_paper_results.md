@@ -35,7 +35,7 @@ python scripts/infer_direct_pairwise_template.py \
 
 python scripts/infer_single_audio_template.py \
   --task top3_score \
-  --inputs data/audio_metadata.jsonl \
+  --inputs data/top3_audio_metadata.jsonl \
   --out predictions/my_model_top3_score.jsonl
 
 python scripts/infer_single_audio_template.py \

@@ -18,19 +18,19 @@ python "$ROOT/scripts/postprocess_predictions.py" \
   --input "$ROOT/examples/raw_segment_outputs.jsonl" \
   --out "$ROOT/outputs/example_postprocessed_segment.jsonl"
 
-vocalcoachbench evaluate-triplet \
+python -m vocalcoachbench.cli evaluate-triplet \
   --pairs "$ROOT/examples/triplet_pairs.jsonl" \
   --predictions "$ROOT/examples/direct_pairwise_predictions.jsonl"
 
-vocalcoachbench evaluate-top3 \
+python -m vocalcoachbench.cli evaluate-top3 \
   --references "$ROOT/examples/top3_references.jsonl" \
   --predictions "$ROOT/examples/top3_predictions.jsonl"
 
-vocalcoachbench evaluate-score-triplet \
+python -m vocalcoachbench.cli evaluate-score-triplet \
   --pairs "$ROOT/examples/triplet_pairs.jsonl" \
   --scores "$ROOT/examples/score_predictions.jsonl"
 
-vocalcoachbench evaluate-segment \
+python -m vocalcoachbench.cli evaluate-segment \
   --references "$ROOT/examples/segment_references.jsonl" \
   --predictions "$ROOT/examples/segment_predictions.jsonl"
 

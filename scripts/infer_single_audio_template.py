@@ -23,7 +23,7 @@ def call_model(prompt: str, audio_path: str, task: str) -> dict[str, Any]:
     """Replace this function with a model/API call.
 
     For task="top3_score", return fields such as:
-    {"top3_issues": ["PITCH", "BREATH", "PHONATION"], "quality_score_0_5": 3.2}
+    {"top3_issues": ["PITCH", "BREATH", "VOCALIZATION"], "quality_score_0_5": 3.2}
 
     For task="segment", return fields such as:
     {"category": "PITCH", "confidence": 0.75}
@@ -36,8 +36,9 @@ def row_id(row: dict[str, Any], task: str) -> str:
     return str(row.get(key) or row.get("id") or "")
 
 
-def row_audio_path(row: dict[str, Any]) -> str:
-    return str(row.get("path") or row.get("audio_path") or row.get("audio_id") or row.get("sample_id") or row.get("id"))
+def row_audio_path(row: dict[str, Any]) -> str | None:
+    value = row.get("path") or row.get("audio_path")
+    return str(value) if value else None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -72,6 +73,8 @@ def main() -> None:
     for item in pending:
         item_id = row_id(item, args.task)
         audio = row_audio_path(item)
+        if audio is None and not args.dry_run:
+            raise ValueError(f"{item_id} has no audio path. Resolve this row before running inference.")
         if args.dry_run:
             result = {"response_text": "", "dry_run": True, "audio_path": audio}
         else:

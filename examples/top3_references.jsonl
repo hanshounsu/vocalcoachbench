@@ -1,2 +1,2 @@
-{"audio_id":"audio_001_a","references":[["PITCH","PHONATION","BREATH"],["PITCH","BREATH","DICTION"]]}
+{"audio_id":"audio_001_a","references":[["PITCH","VOCALIZATION","BREATH"],["PITCH","BREATH","DICTION"]]}
 {"audio_id":"audio_002_b","references":[["RHYTHM","PITCH","EXPRESSION"]]}

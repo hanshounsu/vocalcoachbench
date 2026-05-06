@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -151,6 +152,23 @@ def build_triplet_pairs(annotation_dir: Path, triplet_policy: str) -> tuple[list
     return pair_rows, summary
 
 
+def remove_local_copy_suffix(value: object) -> str:
+    return re.sub(r" \(\d+\)$", "", str(value))
+
+
+def audio_id_from_recording(row: dict[str, Any]) -> str:
+    return str(row.get("audio_id") or str(row["recording_id"]).split("_", 1)[-1])
+
+
+def build_recording_lookup(annotation_dir: Path) -> dict[str, dict[str, Any]]:
+    lookup: dict[str, dict[str, Any]] = {}
+    for row in read_jsonl(annotation_dir / "recordings.jsonl"):
+        audio_id = audio_id_from_recording(row)
+        lookup[audio_id] = row
+        lookup.setdefault(remove_local_copy_suffix(audio_id), row)
+    return lookup
+
+
 def build_top3_references(annotation_dir: Path) -> list[dict[str, Any]]:
     by_audio: dict[str, list[list[str]]] = defaultdict(list)
     for row in read_jsonl(annotation_dir / "top3_issue_annotations.jsonl"):
@@ -184,22 +202,50 @@ def prepared_audio_path(path: object, out_dir: Path) -> str | None:
     return str(out_dir / path_text)
 
 
+def audio_metadata_row(row: dict[str, Any], out_dir: Path, *, audio_id: str | None = None) -> dict[str, Any]:
+    output_audio_id = audio_id or audio_id_from_recording(row)
+    dataset = row.get("dataset")
+    return {
+        "audio_id": output_audio_id,
+        "recording_id": f"{dataset}_{output_audio_id}" if dataset else row.get("recording_id"),
+        "path": prepared_audio_path(row.get("audio_path"), out_dir),
+        "audio_filename": row.get("audio_filename"),
+        "audio_redistributed": row.get("audio_redistributed"),
+        "audio_access": row.get("audio_access"),
+        "subset": row.get("subset"),
+        "source_dataset": row.get("source_dataset"),
+        "song_title": row.get("song_title"),
+    }
+
+
 def build_audio_metadata(annotation_dir: Path, out_dir: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for row in read_jsonl(annotation_dir / "recordings.jsonl"):
-        rows.append(
-            {
-                "audio_id": row.get("audio_id") or str(row["recording_id"]).split("_", 1)[-1],
-                "recording_id": row.get("recording_id"),
-                "path": prepared_audio_path(row.get("audio_path"), out_dir),
-                "audio_filename": row.get("audio_filename"),
-                "audio_redistributed": row.get("audio_redistributed"),
-                "audio_access": row.get("audio_access"),
-                "subset": row.get("subset"),
-                "source_dataset": row.get("source_dataset"),
-                "song_title": row.get("song_title"),
-            }
-        )
+        rows.append(audio_metadata_row(row, out_dir))
+    return rows
+
+
+def build_top3_audio_metadata(annotation_dir: Path, out_dir: Path, top3_references: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    recording_lookup = build_recording_lookup(annotation_dir)
+    rows: list[dict[str, Any]] = []
+    for audio_id in sorted({str(row["audio_id"]) for row in top3_references}):
+        source = recording_lookup.get(audio_id) or recording_lookup.get(remove_local_copy_suffix(audio_id))
+        if source is None:
+            rows.append(
+                {
+                    "audio_id": audio_id,
+                    "recording_id": None,
+                    "path": None,
+                    "audio_filename": None,
+                    "audio_redistributed": False,
+                    "audio_access": "No matching recording metadata found; resolve from the source dataset.",
+                    "subset": None,
+                    "source_dataset": None,
+                    "song_title": None,
+                }
+            )
+        else:
+            rows.append(audio_metadata_row(source, out_dir, audio_id=audio_id))
     return rows
 
 
@@ -243,6 +289,7 @@ def main() -> None:
     top3_references = build_top3_references(annotation_dir)
     segment_references = build_segment_references(annotation_dir)
     audio_metadata = build_audio_metadata(annotation_dir, out_dir)
+    top3_audio_metadata = build_top3_audio_metadata(annotation_dir, out_dir, top3_references)
     segment_metadata = build_segment_metadata(annotation_dir, out_dir)
 
     audio_link_created = False
@@ -256,6 +303,7 @@ def main() -> None:
     write_jsonl(out_dir / "top3_references.jsonl", top3_references)
     write_jsonl(out_dir / "segment_references.jsonl", segment_references)
     write_jsonl(out_dir / "audio_metadata.jsonl", audio_metadata)
+    write_jsonl(out_dir / "top3_audio_metadata.jsonl", top3_audio_metadata)
     write_jsonl(out_dir / "segment_metadata.jsonl", segment_metadata)
 
     summary = {
@@ -265,7 +313,14 @@ def main() -> None:
         "top3_audio_count": len(top3_references),
         "segment_count": len(segment_references),
         "audio_metadata_count": len(audio_metadata),
+        "audio_path_count": sum(1 for row in audio_metadata if row.get("path")),
+        "audio_path_missing_count": sum(1 for row in audio_metadata if not row.get("path")),
+        "top3_audio_metadata_count": len(top3_audio_metadata),
+        "top3_audio_path_count": sum(1 for row in top3_audio_metadata if row.get("path")),
+        "top3_audio_path_missing_count": sum(1 for row in top3_audio_metadata if not row.get("path")),
         "segment_metadata_count": len(segment_metadata),
+        "segment_path_count": sum(1 for row in segment_metadata if row.get("path")),
+        "segment_path_missing_count": sum(1 for row in segment_metadata if not row.get("path")),
         "audio_link_created": audio_link_created,
         "audio_link_path": str(audio_target) if audio_target.exists() else None,
     }

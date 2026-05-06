@@ -46,6 +46,7 @@ After preparation, the evaluator checkout should contain:
 ```text
 data/
   audio_metadata.jsonl
+  top3_audio_metadata.jsonl
   triplet_pairs.jsonl
   top3_references.jsonl
   segment_references.jsonl
@@ -58,10 +59,17 @@ Only the reference JSONL files are required for scoring existing prediction
 files. Audio files and metadata are required when generating new model
 predictions.
 
-For model inference, use the paths in `data/audio_metadata.jsonl` and
-`data/segment_metadata.jsonl`. If a row has `path: null`, that audio is not
-directly runnable from the prepared release; resolve it from the source dataset
-metadata or from your local audio store before running inference.
+For model inference, use the paths in the prepared metadata files. Use
+`data/top3_audio_metadata.jsonl` for Top-3 issue prediction and score-derived
+triplet inference, and `data/segment_metadata.jsonl` for segment inference.
+`data/audio_metadata.jsonl` mirrors the raw `recordings.jsonl` table for general
+lookup. If a row has `path: null`, that audio is not directly runnable from the
+prepared release; resolve it from the source dataset metadata or from your local
+audio store before running inference.
+In the paper release, `top3_audio_metadata.jsonl` has packaged paths for 190 of
+515 Top-3/score audios, and `segment_metadata.jsonl` has packaged paths for 166
+of 262 segment rows; the remaining rows are still valid benchmark references but
+require source-audio resolution for model inference.
 
 ## Prepared Files
 
@@ -77,7 +85,11 @@ metadata or from your local audio store before running inference.
 : Accepted expert labels for segment-conditioned issue classification.
 
 `audio_metadata.jsonl`
-: Audio identifiers and paths for single-audio inference.
+: Recording-level audio identifiers and paths from `annotations/recordings.jsonl`.
+
+`top3_audio_metadata.jsonl`
+: Audio identifiers and paths aligned exactly to `top3_references.jsonl`.
+  Use this file for Top-3 issue prediction and score-derived triplet inference.
 
 `segment_metadata.jsonl`
 : Segment identifiers and paths for segment inference.
@@ -93,7 +105,14 @@ With the default clean triplet policy, `prepare_summary.json` should report:
   "kept_triplet_count": 189,
   "pair_count": 567,
   "top3_audio_count": 515,
-  "segment_count": 262
+  "segment_count": 262,
+  "audio_path_count": 191,
+  "audio_path_missing_count": 324,
+  "top3_audio_metadata_count": 515,
+  "top3_audio_path_count": 190,
+  "top3_audio_path_missing_count": 325,
+  "segment_path_count": 166,
+  "segment_path_missing_count": 96
 }
 ```
 
@@ -127,6 +146,7 @@ Check that the prepared files exist:
 ```bash
 ls data/triplet_pairs.jsonl \
    data/top3_references.jsonl \
+   data/top3_audio_metadata.jsonl \
    data/segment_references.jsonl
 ```
 

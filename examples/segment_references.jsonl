@@ -1,3 +1,3 @@
-{"sample_id":"segment_001","labels":["PITCH","PHONATION"]}
+{"sample_id":"segment_001","labels":["PITCH","VOCALIZATION"]}
 {"sample_id":"segment_002","labels":["DICTION"]}
 {"sample_id":"segment_003","labels":["BREATH","TECHNIQUE"]}

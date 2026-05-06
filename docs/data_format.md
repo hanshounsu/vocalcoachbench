@@ -29,6 +29,9 @@ calling a model.
 When using the Hugging Face dataset release, create these scorer-ready
 metadata/reference files with `scripts/prepare_hf_release.py`. See
 `docs/huggingface_dataset.md` for the expected downloaded layout.
+For Top-3 and score inference, use the prepared `top3_audio_metadata.jsonl`
+because it is keyed to `top3_references.jsonl`. The broader
+`audio_metadata.jsonl` mirrors the raw recording table.
 
 ## Direct Pairwise Triplet Ranking
 
@@ -88,13 +91,13 @@ This is not the main triplet-ranking protocol.
 Reference row:
 
 ```json
-{"audio_id": "audio_001", "references": [["PITCH", "BREATH", "PHONATION"]]}
+{"audio_id": "audio_001", "references": [["PITCH", "BREATH", "VOCALIZATION"]]}
 ```
 
 Prediction row:
 
 ```json
-{"audio_id": "audio_001", "top3_issues": ["PITCH", "PHONATION", "DICTION"]}
+{"audio_id": "audio_001", "top3_issues": ["PITCH", "VOCALIZATION", "DICTION"]}
 ```
 
 Metrics are averaged over reference lists for the same audio.
@@ -104,7 +107,7 @@ Metrics are averaged over reference lists for the same audio.
 Reference row:
 
 ```json
-{"sample_id": "segment_001", "labels": ["PITCH", "PHONATION"]}
+{"sample_id": "segment_001", "labels": ["PITCH", "VOCALIZATION"]}
 ```
 
 Prediction row:
@@ -120,5 +123,5 @@ The segment metric is exact category match against any accepted expert label.
 The seven issue categories are:
 
 ```text
-PITCH, RHYTHM, DICTION, BREATH, PHONATION, TECHNIQUE, EXPRESSION
+PITCH, RHYTHM, DICTION, BREATH, VOCALIZATION, TECHNIQUE, EXPRESSION
 ```

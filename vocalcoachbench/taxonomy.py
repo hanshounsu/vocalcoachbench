@@ -5,7 +5,7 @@ CATEGORIES = [
     "RHYTHM",
     "DICTION",
     "BREATH",
-    "PHONATION",
+    "VOCALIZATION",
     "TECHNIQUE",
     "EXPRESSION",
 ]
@@ -15,9 +15,9 @@ CATEGORY_SET = set(CATEGORIES)
 PARENT_CATEGORY = {
     "PITCH": "MUSICAL_ACCURACY",
     "RHYTHM": "MUSICAL_ACCURACY",
-    "DICTION": "TECHNICAL_PRODUCTION",
+    "DICTION": "DELIVERY",
     "BREATH": "TECHNICAL_PRODUCTION",
-    "PHONATION": "TECHNICAL_PRODUCTION",
+    "VOCALIZATION": "TECHNICAL_PRODUCTION",
     "TECHNIQUE": "TECHNICAL_PRODUCTION",
     "EXPRESSION": "DELIVERY",
 }
@@ -34,8 +34,8 @@ def normalize_category(value: object) -> str | None:
         "ARTICULATION": "DICTION",
         "PRONUNCIATION": "DICTION",
         "RESPIRATION": "BREATH",
-        "VOCALIZATION": "PHONATION",
-        "TONE": "PHONATION",
+        "PHONATION": "VOCALIZATION",
+        "TONE": "VOCALIZATION",
         "VOCAL_TECHNIQUE": "TECHNIQUE",
         "MUSICAL_EXPRESSION": "EXPRESSION",
     }
@@ -68,4 +68,3 @@ def parentize(categories: list[str]) -> list[str]:
             seen.add(parent)
             out.append(parent)
     return out
-

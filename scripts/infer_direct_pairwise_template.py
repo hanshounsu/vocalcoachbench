@@ -21,13 +21,13 @@ def load_audio_metadata(path: str | None) -> dict[str, dict[str, Any]]:
     return {str(row["audio_id"]): row for row in rows if row.get("audio_id")}
 
 
-def audio_path(audio_id: str, pair: dict[str, Any], metadata: dict[str, dict[str, Any]], side: str) -> str:
+def audio_path(audio_id: str, pair: dict[str, Any], metadata: dict[str, dict[str, Any]], side: str) -> str | None:
     inline_key = f"audio_{side.lower()}_path"
     if pair.get(inline_key):
         return str(pair[inline_key])
     if audio_id in metadata and metadata[audio_id].get("path"):
         return str(metadata[audio_id]["path"])
-    return audio_id
+    return None
 
 
 def call_model(prompt: str, audio_a_path: str, audio_b_path: str) -> dict[str, Any]:
@@ -76,6 +76,9 @@ def main() -> None:
         audio_b_id = str(pair["audio_b_id"])
         audio_a = audio_path(audio_a_id, pair, metadata, "a")
         audio_b = audio_path(audio_b_id, pair, metadata, "b")
+        if (audio_a is None or audio_b is None) and not args.dry_run:
+            missing = [audio_id for audio_id, path in ((audio_a_id, audio_a), (audio_b_id, audio_b)) if path is None]
+            raise ValueError(f"{pair_id} has unresolved audio path(s): {', '.join(missing)}")
 
         if args.dry_run:
             result = {

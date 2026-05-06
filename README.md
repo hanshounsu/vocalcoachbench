@@ -34,6 +34,11 @@ the released reference JSONL files and prediction JSONL files.
 For inference, check the prepared `audio_metadata.jsonl` and
 `segment_metadata.jsonl`; rows with `path: null` must be resolved from the
 source dataset metadata or from your local audio store.
+The paper release packages audio for the redistributable rows only, so both
+packaged paths and source-resolution rows can appear in the same prepared
+metadata file.
+For Top-3 and score inference, use `top3_audio_metadata.jsonl`; it is aligned
+exactly to the `top3_references.jsonl` audio IDs.
 
 ## File Roles
 
@@ -119,19 +124,19 @@ The direct pairwise prompt asks models to return JSON with `winner`,
 ### Top-3 Issue Prediction
 
 ```json
-{"audio_id": "a001", "top3_issues": ["PITCH", "BREATH", "PHONATION"]}
+{"audio_id": "a001", "top3_issues": ["PITCH", "BREATH", "VOCALIZATION"]}
 ```
 
 ### Segment Classification
 
 ```json
-{"sample_id": "s001", "category": "PHONATION"}
+{"sample_id": "s001", "category": "VOCALIZATION"}
 ```
 
 Allowed issue categories:
 
 ```text
-PITCH, RHYTHM, DICTION, BREATH, PHONATION, TECHNIQUE, EXPRESSION
+PITCH, RHYTHM, DICTION, BREATH, VOCALIZATION, TECHNIQUE, EXPRESSION
 ```
 
 ## Repository Layout
@@ -173,6 +178,7 @@ Expected scorer-ready layout after preparation:
 ```text
 data/
   audio_metadata.jsonl
+  top3_audio_metadata.jsonl
   triplet_pairs.jsonl
   top3_references.jsonl
   segment_references.jsonl
