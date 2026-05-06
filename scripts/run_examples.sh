@@ -5,17 +5,17 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 python "$ROOT/scripts/postprocess_predictions.py" \
   --task direct_pairwise \
-  --input "$ROOT/examples/raw_direct_pairwise_outputs.jsonl" \
+  --input "$ROOT/examples/example_raw_direct_pairwise_outputs.jsonl" \
   --out "$ROOT/outputs/example_postprocessed_direct_pairwise.jsonl"
 
 python "$ROOT/scripts/postprocess_predictions.py" \
   --task top3_score \
-  --input "$ROOT/examples/raw_top3_score_outputs.jsonl" \
+  --input "$ROOT/examples/example_raw_top3_score_outputs.jsonl" \
   --out "$ROOT/outputs/example_postprocessed_top3_score.jsonl"
 
 python "$ROOT/scripts/postprocess_predictions.py" \
   --task segment \
-  --input "$ROOT/examples/raw_segment_outputs.jsonl" \
+  --input "$ROOT/examples/example_raw_segment_outputs.jsonl" \
   --out "$ROOT/outputs/example_postprocessed_segment.jsonl"
 
 vocalcoachbench evaluate-triplet \

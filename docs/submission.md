@@ -7,6 +7,8 @@ The benchmark dataset provides the reference files. Participants provide model
 prediction files. The scorer combines those two sets of files to compute metrics.
 If a model returns raw text rather than canonical JSONL fields, normalize the
 outputs with `scripts/postprocess_predictions.py` before scoring.
+The toy `examples/example_raw_*_outputs.jsonl` files only demonstrate this
+normalization step.
 
 To evaluate all available tasks in one command:
 

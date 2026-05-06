@@ -96,8 +96,8 @@ For each pair in the released pair manifest, submit one row:
 {"pair_id": "p001_ab", "winner": "A", "confidence": 0.82, "rationale": "..."}
 ```
 
-The evaluator also accepts raw model text in `response_text` and normalizes
-simple answers such as `A`, `B`, or JSON-like strings containing `winner: "A"`.
+The direct pairwise prompt asks models to return JSON with `winner`,
+`confidence`, and `rationale`. The required scoring field is `winner`.
 
 ### Top-3 Issue Prediction
 
@@ -203,12 +203,14 @@ scoring:
 ```bash
 python scripts/postprocess_predictions.py \
   --task top3_score \
-  --input examples/raw_top3_score_outputs.jsonl \
+  --input examples/example_raw_top3_score_outputs.jsonl \
   --out outputs/example_top3_score_predictions.jsonl \
   --print-summary
 ```
 
-The post-processing rules are documented in `docs/postprocessing.md`.
+The `examples/example_raw_*_outputs.jsonl` files are toy demonstrations of the
+normalizer, not released model outputs. The post-processing rules are documented
+in `docs/postprocessing.md`.
 
 ## Notes
 
