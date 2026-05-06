@@ -60,6 +60,8 @@ interface between model inference and scoring.
 
 1. Download the benchmark dataset.
 2. Run `scripts/prepare_hf_release.py` to create scorer-ready reference files.
+   For triplet ranking, this uses `triplet_ranking_eval_units.jsonl` and keeps
+   `benchmark_included == true`.
 3. Generate or download model prediction JSONL files.
 4. If needed, normalize raw model outputs with `scripts/postprocess_predictions.py`.
 5. Run `scripts/evaluate_all.py`.

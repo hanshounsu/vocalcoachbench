@@ -62,6 +62,10 @@ scores are averaged.
 The main triplet set excludes heavily conflicting triplet references. It keeps
 triplets whose expert pair directions agree on at least two of the three implied
 pairwise preferences.
+In the Hugging Face release this policy is already encoded in
+`annotations/triplet_ranking_eval_units.jsonl` and
+`metadata/triplet_ranking_policy.json`; `scripts/prepare_hf_release.py` uses
+those fields directly when preparing `triplet_pairs.jsonl`.
 
 ## Auxiliary Score-Derived Triplet Ranking
 

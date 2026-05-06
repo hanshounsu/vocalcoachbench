@@ -161,6 +161,11 @@ release audio directory. The `data/` directory is ignored by git so that the
 evaluator repository remains code-only. See `docs/huggingface_dataset.md` for
 the expected release layout and quick checks.
 
+For triplet ranking, the HF release preserves all raw annotations and marks the
+benchmark subset explicitly. `scripts/prepare_hf_release.py` uses
+`annotations/triplet_ranking_eval_units.jsonl` and keeps rows where
+`benchmark_included == true`.
+
 Expected scorer-ready layout after preparation:
 
 ```text

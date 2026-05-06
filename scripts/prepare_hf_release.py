@@ -5,7 +5,7 @@ import argparse
 import itertools
 import json
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -56,7 +56,57 @@ def clean_reference_orders(rows: list[dict[str, Any]], policy: str) -> list[list
     return []
 
 
+def build_triplet_pairs_from_eval_units(annotation_dir: Path) -> tuple[list[dict[str, Any]], dict[str, Any]] | None:
+    eval_path = annotation_dir / "triplet_ranking_eval_units.jsonl"
+    if not eval_path.exists():
+        return None
+
+    eval_units = read_jsonl(eval_path)
+    included = [row for row in eval_units if row.get("benchmark_included") is True]
+    pair_rows: list[dict[str, Any]] = []
+    for row in included:
+        audio_ids = [str(audio_id) for audio_id in row["audio_ids"]]
+        recording_to_audio = {
+            str(recording_id): audio_id
+            for recording_id, audio_id in zip(row.get("recording_ids", []), audio_ids, strict=False)
+        }
+        reference_orders: list[list[str]] = []
+        for order in row.get("reference_ranked_recording_ids_best_to_worst") or []:
+            reference_orders.append([recording_to_audio.get(str(recording_id), str(recording_id)) for recording_id in order])
+
+        for pair_index, (audio_a, audio_b) in enumerate(itertools.combinations(sorted(audio_ids), 2), start=1):
+            pair_rows.append(
+                {
+                    "pair_id": f"{row['triplet_id']}_pair_{pair_index}",
+                    "triplet_id": row["triplet_id"],
+                    "triplet_instance_id": row["triplet_id"],
+                    "audio_a_id": audio_a,
+                    "audio_b_id": audio_b,
+                    "reference_orders": reference_orders,
+                    "benchmark_policy": row.get("benchmark_policy"),
+                    "pairwise_reference_agreement": row.get("pairwise_reference_agreement"),
+                    "original_reference_count": row.get("original_reference_count"),
+                    "used_reference_count": row.get("used_reference_count"),
+                }
+            )
+
+    policy_counts = Counter(str(row.get("benchmark_policy")) for row in eval_units)
+    summary = {
+        "triplet_source_file": "triplet_ranking_eval_units.jsonl",
+        "source_triplet_count": len(eval_units),
+        "kept_triplet_count": len(included),
+        "skipped_triplet_count": len(eval_units) - len(included),
+        "pair_count": len(pair_rows),
+        "policy_counts_by_triplet": dict(sorted(policy_counts.items())),
+    }
+    return pair_rows, summary
+
+
 def build_triplet_pairs(annotation_dir: Path, triplet_policy: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    eval_unit_result = build_triplet_pairs_from_eval_units(annotation_dir)
+    if eval_unit_result is not None and triplet_policy == "clean":
+        return eval_unit_result
+
     rankings = read_jsonl(annotation_dir / "triplet_rankings.jsonl")
     by_triplet: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rankings:
@@ -90,6 +140,7 @@ def build_triplet_pairs(annotation_dir: Path, triplet_policy: str) -> tuple[list
             )
 
     summary = {
+        "triplet_source_file": "triplet_rankings.jsonl",
         "source_annotation_rows": len(rankings),
         "source_triplet_count": len(by_triplet),
         "triplet_policy": triplet_policy,

@@ -14,10 +14,12 @@ VocalCoachBench_annotations/
     segment_annotations.jsonl
     segment_consensus_events.jsonl
     source_datasets.jsonl
+    triplet_ranking_eval_units.jsonl
     top3_issue_annotations.jsonl
     triplet_rankings.jsonl
   metadata/
     category_ontology.json
+    triplet_ranking_policy.json
     release_stats.json
   audio/
     diverse_song/
@@ -60,6 +62,8 @@ predictions.
 
 `triplet_pairs.jsonl`
 : Pair manifest and triplet references for direct pairwise triplet ranking.
+  This is generated from `annotations/triplet_ranking_eval_units.jsonl` by
+  keeping rows with `benchmark_included == true`.
 
 `top3_references.jsonl`
 : Expert Top-3 issue references.
@@ -80,12 +84,20 @@ With the default clean triplet policy, `prepare_summary.json` should report:
 
 ```json
 {
+  "triplet_source_file": "triplet_ranking_eval_units.jsonl",
   "kept_triplet_count": 189,
   "pair_count": 567,
   "top3_audio_count": 515,
   "segment_count": 262
 }
 ```
+
+The raw HF release preserves all 450 triplet ranking annotations in
+`annotations/triplet_rankings.jsonl`. Benchmark inclusion is machine-readable:
+raw annotation rows include `benchmark_included`, and unique-triplet rows in
+`annotations/triplet_ranking_eval_units.jsonl` define the 219 triplets and the
+189 triplets used for evaluation. The policy is recorded in
+`metadata/triplet_ranking_policy.json`.
 
 ## Quick Checks
 
