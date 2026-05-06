@@ -18,6 +18,23 @@ If your inference code already writes canonical prediction rows with fields such
 as `winner`, `top3_issues`, `quality_score_0_5`, or `category`, you can skip
 this step and run the scorer directly.
 
+For direct pairwise ranking, `scripts/infer_direct_pairwise_template.py` is the
+template that creates the raw output file after a user implements `call_model`.
+`scripts/postprocess_predictions.py` then converts that raw file into the
+canonical direct-pairwise prediction file used by the scorer:
+
+```bash
+python scripts/infer_direct_pairwise_template.py \
+  --pairs data/triplet_pairs.jsonl \
+  --audio-metadata data/audio_metadata.jsonl \
+  --out raw_outputs/my_model_direct_pairwise_raw.jsonl
+
+python scripts/postprocess_predictions.py \
+  --task direct_pairwise \
+  --input raw_outputs/my_model_direct_pairwise_raw.jsonl \
+  --out predictions/my_model_direct_pairwise.jsonl
+```
+
 ## Commands
 
 Normalize raw rows before scoring:
@@ -56,7 +73,7 @@ The normalizer first parses JSON objects, then applies conservative fallback
 rules for simple text answers. It maps category aliases to the seven benchmark
 categories and clips confidence to `[0, 1]` and quality scores to `[0, 5]`.
 
-The files named `examples/example_raw_*_outputs.jsonl` are toy demonstrations of
+The files named `examples/raw_*_outputs.jsonl` are toy demonstrations of
 these parsing rules. They are not model prediction files from the paper.
 
 The direct pairwise prompt asks for a JSON object with `winner`, `confidence`,

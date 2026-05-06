@@ -224,12 +224,12 @@ For example:
 ```bash
 python scripts/postprocess_predictions.py \
   --task top3_score \
-  --input examples/example_raw_top3_score_outputs.jsonl \
+  --input examples/raw_top3_score_outputs.jsonl \
   --out outputs/example_top3_score_predictions.jsonl \
   --print-summary
 ```
 
-The `examples/example_raw_*_outputs.jsonl` files are toy demonstrations of the
+The `examples/raw_*_outputs.jsonl` files are toy demonstrations of the
 normalizer, not released model outputs. The post-processing rules are documented
 in `docs/postprocessing.md`.
 

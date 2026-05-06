@@ -47,6 +47,9 @@ python scripts/infer_single_audio_template.py \
 
 The `call_model(...)` functions in those files are intentionally placeholders.
 Users should implement them with their own local model or API backend.
+Those scripts can write raw output rows with `response_text`; the raw rows can
+then be normalized with `scripts/postprocess_predictions.py` into canonical
+prediction JSONL files for scoring.
 
 Closed API models can change over time, and their exact outputs may depend on
 model versioning, serving behavior, and decoding settings. For that reason, the
