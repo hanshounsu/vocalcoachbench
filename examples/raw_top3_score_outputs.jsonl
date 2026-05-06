@@ -1,0 +1,2 @@
+{"audio_id":"audio_001_a","response_text":"{\"top3_issues\":[\"pitch\",\"breath\",\"phonation\"],\"quality_score_0_5\":4.1,\"score_confidence\":0.8}"}
+{"audio_id":"audio_002_b","response_text":"Top issues: pitch, rhythm, diction. Score: 4.0/5."}

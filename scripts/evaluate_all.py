@@ -3,8 +3,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from vocalcoachbench.io import read_jsonl, write_json
 from vocalcoachbench.metrics import (
@@ -23,12 +28,10 @@ def first_existing(paths: list[Path]) -> Path | None:
 
 
 def unique_glob(directory: Path, patterns: list[str]) -> Path | None:
-    matches: list[Path] = []
     for pattern in patterns:
-        matches.extend(sorted(directory.glob(pattern)))
-    unique = sorted(set(matches))
-    if len(unique) == 1:
-        return unique[0]
+        unique = sorted(set(directory.glob(pattern)))
+        if len(unique) == 1:
+            return unique[0]
     return None
 
 
@@ -81,14 +84,14 @@ def main() -> None:
     direct_predictions = resolve_prediction(
         args.direct_pairwise,
         predictions_dir,
-        ["*direct_pairwise*.jsonl", "*pairwise*.jsonl"],
+        ["direct_pairwise_predictions.jsonl", "*_direct_pairwise_predictions.jsonl", "*direct_pairwise*.jsonl", "*pairwise*.jsonl"],
     )
     top3_predictions = resolve_prediction(
         args.top3,
         predictions_dir,
         ["top3_predictions.jsonl", "*_top3_predictions.jsonl", "*_top3.jsonl"],
     )
-    score_predictions = resolve_prediction(args.scores, predictions_dir, ["*score*.jsonl", "*scores*.jsonl"])
+    score_predictions = resolve_prediction(args.scores, predictions_dir, ["score_predictions.jsonl", "*_score_predictions.jsonl", "*score*.jsonl", "*scores*.jsonl"])
     segment_predictions = resolve_prediction(
         args.segment,
         predictions_dir,

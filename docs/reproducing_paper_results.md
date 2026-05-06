@@ -57,7 +57,8 @@ interface between model inference and scoring.
 
 1. Download the benchmark dataset and reference JSONL files.
 2. Generate or download model prediction JSONL files.
-3. Run `scripts/evaluate_all.py`.
-4. Use the generated `results/all_metrics.json` to populate result tables.
+3. If needed, normalize raw model outputs with `scripts/postprocess_predictions.py`.
+4. Run `scripts/evaluate_all.py`.
+5. Use the generated `results/all_metrics.json` to populate result tables.
 
 The scorer itself has no external runtime dependencies beyond Python.

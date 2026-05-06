@@ -10,5 +10,7 @@ dist/
 *.egg-info/
 data/
 outputs/
+predictions/
+raw_outputs/
+results/
 *.log
-

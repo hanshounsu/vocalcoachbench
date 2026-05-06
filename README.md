@@ -195,6 +195,21 @@ python scripts/infer_single_audio_template.py --help
 Implement the `call_model(...)` function in a local copy or adapter script for
 your model, then evaluate the resulting JSONL files with the scorer.
 
+## Post-Processing
+
+If a model returns raw text, normalize it into canonical prediction JSONL before
+scoring:
+
+```bash
+python scripts/postprocess_predictions.py \
+  --task top3_score \
+  --input examples/raw_top3_score_outputs.jsonl \
+  --out outputs/example_top3_score_predictions.jsonl \
+  --print-summary
+```
+
+The post-processing rules are documented in `docs/postprocessing.md`.
+
 ## Notes
 
 - Main triplet ranking uses **direct pairwise comparison**, not scalar quality
