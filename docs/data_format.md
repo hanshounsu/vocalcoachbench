@@ -6,6 +6,11 @@ The scorer consumes reference JSONL files and prediction JSONL files. It does
 not run model inference. Audio files are used upstream to generate predictions;
 the metric commands themselves do not load audio.
 
+`raw_outputs/*.jsonl` files, when used, are optional logs of unprocessed model
+text. They are not scored directly. Convert them to canonical prediction JSONL
+with `scripts/postprocess_predictions.py`, or write canonical prediction JSONL
+directly from your inference code.
+
 ## Audio Metadata
 
 Audio metadata should identify the audio without assuming a fixed storage

@@ -1,7 +1,26 @@
 # Post-Processing Raw Model Outputs
 
-The official metric commands consume canonical prediction JSONL files. If a
-model returns raw text, normalize it before scoring:
+The official metric commands consume **canonical prediction JSONL** files, not
+raw LALM text. Post-processing is needed only when an inference script saves the
+model's unprocessed text response.
+
+The intended file flow is:
+
+```text
+model/API response text
+  -> raw_outputs/*.jsonl              # optional archive, not scored directly
+  -> scripts/postprocess_predictions.py
+  -> predictions/*.jsonl              # canonical scorer input
+  -> vocalcoachbench evaluate-*
+```
+
+If your inference code already writes canonical prediction rows with fields such
+as `winner`, `top3_issues`, `quality_score_0_5`, or `category`, you can skip
+this step and run the scorer directly.
+
+## Commands
+
+Normalize raw rows before scoring:
 
 ```bash
 python scripts/postprocess_predictions.py \
@@ -23,7 +42,7 @@ python scripts/postprocess_predictions.py \
   --print-summary
 ```
 
-## Raw Output Rows
+## Raw Output Rows, Not Scorer Input
 
 Raw rows must preserve the benchmark identifier and the model text:
 
@@ -45,9 +64,10 @@ and `rationale`; a typical raw row therefore contains that JSON string in
 `response_text`. The simple-text fallback exists only to handle occasional
 non-JSON model outputs without changing the scoring interface.
 
-## Canonical Prediction Rows
+## Canonical Prediction Rows, Scorer Input
 
-The output files can be passed directly to the scorer:
+The post-processed output files are canonical prediction files and can be passed
+directly to the scorer:
 
 ```bash
 vocalcoachbench evaluate-triplet \

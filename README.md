@@ -33,6 +33,21 @@ The scorer does not listen to audio files or call model APIs. Audio files are
 needed when generating model predictions, but the metric commands consume only
 the released reference JSONL files and prediction JSONL files.
 
+## File Roles
+
+VocalCoachBench uses three different kinds of JSONL files:
+
+| File type | Typical path | Purpose | Used by scorer? |
+| --- | --- | --- | --- |
+| Reference files | `data/triplet_pairs.jsonl`, `data/top3_references.jsonl` | Released benchmark labels/manifests | Yes |
+| Raw model outputs | `raw_outputs/my_model_*.jsonl` | Optional archive of unprocessed LALM text responses | No |
+| Prediction files | `predictions/my_model_*.jsonl` | Canonical, post-processed model outputs | Yes |
+
+The evaluator scores **prediction files**, not raw model text. If your inference
+code already writes canonical prediction JSONL, no extra normalization step is
+needed. If it stores raw LALM text in `response_text`, run
+`scripts/postprocess_predictions.py` first.
+
 ## Installation
 
 On a fresh Ubuntu server:
@@ -197,8 +212,14 @@ your model, then evaluate the resulting JSONL files with the scorer.
 
 ## Post-Processing
 
-If a model returns raw text, normalize it into canonical prediction JSONL before
-scoring:
+Post-processing is the optional conversion from raw LALM text to canonical
+prediction JSONL:
+
+```text
+raw_outputs/*.jsonl  ->  scripts/postprocess_predictions.py  ->  predictions/*.jsonl  ->  scorer
+```
+
+For example:
 
 ```bash
 python scripts/postprocess_predictions.py \

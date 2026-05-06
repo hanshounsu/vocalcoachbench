@@ -10,6 +10,9 @@ outputs with `scripts/postprocess_predictions.py` before scoring.
 The toy `examples/example_raw_*_outputs.jsonl` files only demonstrate this
 normalization step.
 
+In other words, `raw_outputs/*.jsonl` is optional and archival; `predictions/*.jsonl`
+is the scorer input.
+
 To evaluate all available tasks in one command:
 
 ```bash
