@@ -10,7 +10,7 @@ prompt templates, post-processing utilities, and data preparation scripts.
 - **Direct pairwise triplet ranking**: compare same-song performances through
   three A/B audio comparisons per triplet.
 - **Top-3 issue prediction**: rank the three most salient vocal issue categories.
-- **Segment-conditioned issue classification**: identify the main issue in an
+- **Segment-level issue classification**: identify the main issue in an
   expert-consensus vocal segment.
 - **Open-ended coaching prompts**: structured diagnosis and correction claim
   templates for hosted or provider-specific judge pipelines.
@@ -35,7 +35,7 @@ For inference, check the prepared `audio_metadata.jsonl` and
 `segment_metadata.jsonl`; rows with `path: null` must be resolved from the
 source dataset metadata or from your local audio store.
 The paper release packages audio for the redistributable rows only, so both
-packaged paths and source-resolution rows can appear in the same prepared
+packaged paths and rows with `path: null` can appear in the same prepared
 metadata file.
 For Top-3 and score inference, use `top3_audio_metadata.jsonl`; it is aligned
 exactly to the `top3_references.jsonl` audio IDs.
@@ -127,7 +127,7 @@ The direct pairwise prompt asks models to return JSON with `winner`,
 {"audio_id": "a001", "top3_issues": ["PITCH", "BREATH", "VOCALIZATION"]}
 ```
 
-### Segment Classification
+### Segment-Level Issue Classification
 
 ```json
 {"sample_id": "s001", "category": "VOCALIZATION"}

@@ -63,7 +63,7 @@ vocalcoachbench evaluate-top3 \
 Submit exactly three issue categories per audio, ordered from most serious to
 third most serious.
 
-## Segment Classification
+## Segment-Level Issue Classification
 
 ```bash
 vocalcoachbench evaluate-segment \

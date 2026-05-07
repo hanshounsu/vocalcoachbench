@@ -4,7 +4,7 @@
 
 - `claim_objective_claims_v5.txt`: structured diagnosis, prescription, and strength claims.
 - `objective_top3_score_v5.txt`: top-3 issue prediction and scalar quality score.
-- `structured_segment_v5.txt`: segment-conditioned issue classification.
+- `structured_segment_v5.txt`: segment-level issue classification.
 - `direct_pairwise_triplet_v5.txt`: direct A/B comparison used for main triplet ranking.
 - `simple_*.txt`: simple natural-language baselines.
 

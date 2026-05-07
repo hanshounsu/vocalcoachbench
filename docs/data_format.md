@@ -102,7 +102,7 @@ Prediction row:
 
 Metrics are averaged over reference lists for the same audio.
 
-## Segment Classification
+## Segment-Level Issue Classification
 
 Reference row:
 
@@ -116,7 +116,7 @@ Prediction row:
 {"sample_id": "segment_001", "category": "PITCH"}
 ```
 
-The segment metric is exact category match against any accepted expert label.
+The segment metric is any-match accuracy against the accepted expert labels.
 
 ## Categories
 

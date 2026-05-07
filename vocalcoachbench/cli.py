@@ -94,7 +94,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     segment = subparsers.add_parser(
         "evaluate-segment",
-        help="Evaluate segment-conditioned issue classification.",
+        help="Evaluate segment-level issue classification.",
     )
     segment.add_argument("--references", required=True, help="Segment reference JSONL.")
     segment.add_argument("--predictions", required=True, help="Segment prediction JSONL.")

@@ -69,7 +69,8 @@ audio store before running inference.
 In the paper release, `top3_audio_metadata.jsonl` has packaged paths for 190 of
 515 Top-3/score audios, and `segment_metadata.jsonl` has packaged paths for 166
 of 262 segment rows; the remaining rows are still valid benchmark references but
-require source-audio resolution for model inference.
+must be resolved from the original source datasets or a local audio store before
+model inference.
 
 ## Prepared Files
 
@@ -82,7 +83,7 @@ require source-audio resolution for model inference.
 : Expert Top-3 issue references.
 
 `segment_references.jsonl`
-: Accepted expert labels for segment-conditioned issue classification.
+: Accepted expert labels for segment-level issue classification.
 
 `audio_metadata.jsonl`
 : Recording-level audio identifiers and paths from `annotations/recordings.jsonl`.

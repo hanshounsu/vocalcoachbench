@@ -20,7 +20,7 @@ This computes:
 - direct pairwise triplet ranking,
 - top-3 issue prediction,
 - auxiliary score-derived triplet ranking,
-- segment-conditioned issue classification.
+- segment-level issue classification.
 
 ## Model Inference
 
