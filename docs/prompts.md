@@ -2,7 +2,7 @@
 
 `prompts/` contains the v5 prompt templates used for the benchmark tasks.
 
-- `claim_objective_claims_v5.txt`: structured diagnosis, prescription, and strength claims.
+- `claim_objective_claims_v5.txt`: structured diagnosis, correction, and strength claims. The raw v5 output key for correction claims is `prescription_claims`.
 - `objective_top3_score_v5.txt`: top-3 issue prediction and scalar quality score.
 - `structured_segment_v5.txt`: segment-level issue classification.
 - `direct_pairwise_triplet_v5.txt`: direct A/B comparison used for main triplet ranking.
